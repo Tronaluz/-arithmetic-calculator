@@ -1,47 +1,76 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="container-fluid p-3 bg-light">
+    <input v-model.number="num1" type="number" placeholder="Número 1">
+    <select v-model="operation">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">*</option>
+      <option value="/">/</option>
+    </select>
+    <input v-model.number="num2" type="number" placeholder="Número 2">
+    <button @click="calculate">Calcular</button>
+    <p>{{ result }}</p>
+  </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      num1: '',
+      num2: '',
+      operation: '+',
+      result: ''
+    }
+  },
+  methods: {
+    calculate() {
+      const num1 = parseFloat(this.num1)
+      const num2 = parseFloat(this.num2)
+      
+      switch(this.operation) {
+        case '+':
+          this.result = num1 + num2
+          break
+        case '-':
+          this.result = num1 - num2
+          break
+        case '*':
+          this.result = num1 * num2
+          break
+        case '/':
+          if(num2 !== 0) {
+            this.result = num1 / num2
+          } else {
+            this.result = 'Divisão por zero!'
+          }
+          break
+      }
+    }
+  }
+}
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
+.container {
+  max-width: 300px;
+  margin: 0 auto;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+input, select, button {
+  margin: 10px;
+  padding: 10px;
+  font-size: 18px;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+button:hover {
+  background-color: #45a049;
 }
 </style>
